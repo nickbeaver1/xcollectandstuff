@@ -1,0 +1,7 @@
+/.vscode
+/rule_tracker.log
+/rule_tracker.py
+/rule_tracker_state.json
+/splitrules.py
+/split_identify.py
+/usergate_rule_cleaner.py

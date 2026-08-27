@@ -8,6 +8,7 @@ import customtkinter as ctk
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import (
@@ -24,7 +25,10 @@ from transliterate import translit
 # ============================================================
 
 BASE_URL = "http://xcollect.fasp.local"
-USERS_URL = "http://xcollect.fasp.local/setup/usersSetup.zul"
+
+USERS_URL = (
+    "http://xcollect.fasp.local/setup/usersSetup.zul"
+)
 
 REPORT_URL = (
     "http://xcollect.fasp.local:81/"
@@ -117,17 +121,27 @@ MALE_NAMES = {
 # ============================================================
 
 def transliterate_to_latin(text):
-    return translit(text, "ru", reversed=True).lower()
+    return translit(
+        text,
+        "ru",
+        reversed=True
+    ).lower()
 
 
 def generate_login(first_name, surname):
-    first = transliterate_to_latin(first_name[0])
-    last = transliterate_to_latin(surname)
+    first = transliterate_to_latin(
+        first_name[0]
+    )
+
+    last = transliterate_to_latin(
+        surname
+    )
 
     return f"{first}.{last}"
 
 
 def detect_gender(first_name):
+
     name = first_name.strip().capitalize()
 
     if name in FEMALE_NAMES:
@@ -147,12 +161,25 @@ def parse_application(text):
     text = text.strip()
 
     if not text:
-        raise ValueError("Заявка пустая.")
+        raise ValueError(
+            "Заявка пустая."
+        )
 
-    text = re.sub(r"\s+", " ", text)
+    text = re.sub(
+        r"\s+",
+        " ",
+        text
+    )
 
-    text = text.replace("–", "-")
-    text = text.replace("—", "-")
+    text = text.replace(
+        "–",
+        "-"
+    )
+
+    text = text.replace(
+        "—",
+        "-"
+    )
 
     dates = re.findall(
         r"\b\d{2}\.\d{2}\.\d{4}\b",
@@ -165,8 +192,6 @@ def parse_application(text):
             "Нужно минимум две даты."
         )
 
-    # Первая дата = дата вхождения
-    # Вторая дата = дата рождения
     entry_date = dates[0]
     birth_date = dates[1]
 
@@ -213,14 +238,18 @@ def parse_application(text):
         first_name = fio_match.group(2)
         middle_name = ""
 
-    gender = detect_gender(first_name)
+    gender = detect_gender(
+        first_name
+    )
 
     login = generate_login(
         first_name,
         surname
     )
 
-    email = f"{login}@fasp.ru"
+    email = (
+        f"{login}@fasp.ru"
+    )
 
     if middle_name:
 
@@ -258,6 +287,7 @@ def parse_application(text):
 class XCollectSelenium:
 
     def __init__(self, log):
+
         self.driver = None
         self.log = log
 
@@ -273,7 +303,9 @@ class XCollectSelenium:
                 self.driver,
                 10
             ).until(
-                EC.element_to_be_clickable(element)
+                EC.element_to_be_clickable(
+                    element
+                )
             )
 
             element.click()
@@ -286,10 +318,14 @@ class XCollectSelenium:
             )
 
     # ========================================================
-    # ПОИСК ПОЛЯ ПЕРВОЙ МОДАЛКИ
+    # ПЕРВАЯ МОДАЛКА
     # ========================================================
 
-    def find_modal_field(self, modal, name):
+    def find_modal_field(
+        self,
+        modal,
+        name
+    ):
 
         selectors = {
 
@@ -356,11 +392,12 @@ class XCollectSelenium:
                 continue
 
         raise Exception(
-            f"Не найдено поле '{name}' внутри модального окна."
+            f"Не найдено поле '{name}' "
+            "внутри модального окна."
         )
 
     # ========================================================
-    # ЗАПОЛНЕНИЕ ОБЫЧНОГО ПОЛЯ
+    # ЗАПОЛНЕНИЕ ПОЛЯ
     # ========================================================
 
     def fill_modal_field(
@@ -391,7 +428,9 @@ class XCollectSelenium:
 
         try:
 
-            field.send_keys(value)
+            field.send_keys(
+                value
+            )
 
         except Exception:
 
@@ -443,11 +482,16 @@ class XCollectSelenium:
         try:
 
             field.clear()
-            field.send_keys(value)
+
+            field.send_keys(
+                value
+            )
 
             time.sleep(0.5)
 
-            field.send_keys("\n")
+            field.send_keys(
+                "\n"
+            )
 
         except Exception:
 
@@ -472,10 +516,13 @@ class XCollectSelenium:
         )
 
     # ========================================================
-    # ПОИСК ВТОРОЙ МОДАЛКИ
+    # ПОИСК МОДАЛКИ
     # ========================================================
 
-    def wait_for_modal(self, timeout=15):
+    def wait_for_modal(
+        self,
+        timeout=15
+    ):
 
         return WebDriverWait(
             self.driver,
@@ -494,7 +541,7 @@ class XCollectSelenium:
         )
 
     # ========================================================
-    # ПОИСК ПОЛЯ ВТОРОЙ МОДАЛКИ
+    # ВТОРАЯ МОДАЛКА
     # ========================================================
 
     def find_second_modal_field(
@@ -504,8 +551,13 @@ class XCollectSelenium:
     ):
 
         xpaths = [
+
             f".//input[contains(@id, '{suffix}')]",
-            f".//input[contains(@id, '{suffix.lower()}')]",
+
+            f".//input[contains("
+            f"@id, '{suffix.lower()}'"
+            f")]",
+
         ]
 
         for xpath in xpaths:
@@ -523,8 +575,6 @@ class XCollectSelenium:
             except NoSuchElementException:
                 pass
 
-        # Диагностический fallback:
-        # иногда ZK может менять часть ID.
         inputs = modal.find_elements(
             By.XPATH,
             ".//input"
@@ -534,7 +584,10 @@ class XCollectSelenium:
 
             try:
 
-                field_id = field.get_attribute("id") or ""
+                field_id = (
+                    field.get_attribute("id")
+                    or ""
+                )
 
                 if suffix.lower() in field_id.lower():
 
@@ -545,7 +598,7 @@ class XCollectSelenium:
                 pass
 
         raise Exception(
-            f"Во второй модалке не найдено поле "
+            "Во второй модалке не найдено поле "
             f"с окончанием ID '{suffix}'."
         )
 
@@ -561,7 +614,8 @@ class XCollectSelenium:
     ):
 
         self.log(
-            f"⏳ Вторая модалка: {suffix} → {value}"
+            f"⏳ Вторая модалка: "
+            f"{suffix} → {value}"
         )
 
         field = self.find_second_modal_field(
@@ -569,7 +623,6 @@ class XCollectSelenium:
             suffix
         )
 
-        # Сначала кликаем именно по реальному input
         self.driver.execute_script(
             "arguments[0].scrollIntoView({block:'center'});",
             field
@@ -579,7 +632,9 @@ class XCollectSelenium:
 
         try:
 
-            self.safe_click(field)
+            self.safe_click(
+                field
+            )
 
         except Exception:
 
@@ -590,9 +645,6 @@ class XCollectSelenium:
 
         time.sleep(0.4)
 
-        # Вводим значение.
-        # Для ZK combobox это обычно приводит
-        # к появлению списка вариантов.
         try:
 
             field.send_keys(
@@ -637,7 +689,10 @@ class XCollectSelenium:
     # ПОИСК СОЗДАННОГО ПОЛЬЗОВАТЕЛЯ
     # ========================================================
 
-    def find_created_user(self, login):
+    def find_created_user(
+        self,
+        login
+    ):
 
         self.log("")
         self.log(
@@ -645,11 +700,6 @@ class XCollectSelenium:
         )
 
         def search(driver):
-
-            # ------------------------------------------------
-            # Вариант 1:
-            # конкретный i1-cave.z
-            # ------------------------------------------------
 
             xpaths = [
 
@@ -695,7 +745,6 @@ class XCollectSelenium:
                         try:
 
                             if element.is_displayed():
-
                                 return element
 
                         except Exception:
@@ -709,7 +758,9 @@ class XCollectSelenium:
         element = WebDriverWait(
             self.driver,
             20
-        ).until(search)
+        ).until(
+            search
+        )
 
         self.log(
             "✅ Пользователь найден"
@@ -718,10 +769,16 @@ class XCollectSelenium:
         return element
 
     # ========================================================
-    # ВТОРОЙ ЭТАП
+    # НОВЫЙ ЭТАП:
+    # Qx.z-textbox → Qb1.z-button
+    # → Qh2.z-listcell → ПКМ
+    # → Qv1-a.z-menuitem-content
     # ========================================================
 
-    def configure_created_user(self, login):
+    def configure_created_user(
+        self,
+        login
+    ):
 
         self.log("")
         self.log("=" * 60)
@@ -731,150 +788,220 @@ class XCollectSelenium:
         self.log("=" * 60)
 
         # ----------------------------------------------------
-        # Ждём исчезновения первой модалки
+        # Снова открываем управление пользователями
         # ----------------------------------------------------
 
         self.log(
-            "⏳ Ждём закрытия окна создания..."
+            "🌐 Снова открываем управление пользователями..."
         )
 
-        try:
+        self.driver.get(
+            USERS_URL
+        )
 
-            WebDriverWait(
-                self.driver,
-                15
-            ).until(
-                EC.invisibility_of_element_located(
-                    (
-                        By.XPATH,
-                        "//div[contains("
-                        "concat(' ', "
-                        "normalize-space(@class), ' '), "
-                        "' z-window-modal '"
-                        ")]"
-                    )
+        time.sleep(3)
+
+        # ----------------------------------------------------
+        # Qx.z-textbox
+        # ----------------------------------------------------
+
+        self.log(
+            "🔎 Ищем поле поиска Qx.z-textbox..."
+        )
+
+        search_input = WebDriverWait(
+            self.driver,
+            20
+        ).until(
+            EC.visibility_of_element_located(
+                (
+                    By.XPATH,
+                    "//input[contains(@class, 'Qx') "
+                    "and contains(@class, 'z-textbox')]"
                 )
             )
-
-        except TimeoutException:
-
-            self.log(
-                "⚠️ Модалка не исчезла за 15 секунд, "
-                "продолжаем поиск пользователя..."
-            )
-
-        time.sleep(1)
-
-        # ----------------------------------------------------
-        # Ищем логин
-        # ----------------------------------------------------
-
-        user_element = self.find_created_user(
-            login
         )
 
-        # ----------------------------------------------------
-        # Кликаем по логину
-        # ----------------------------------------------------
-
         self.log(
-            f"🖱 Открываем пользователя: {login}"
+            "✅ Поле Qx.z-textbox найдено"
         )
 
         self.driver.execute_script(
             "arguments[0].scrollIntoView({block:'center'});",
-            user_element
+            search_input
+        )
+
+        time.sleep(0.3)
+
+        search_input.click()
+
+        search_input.clear()
+
+        search_input.send_keys(
+            login
+        )
+
+        self.log(
+            f"✅ В поиск введён логин: {login}"
+        )
+
+        # ----------------------------------------------------
+        # Qb1.z-button
+        # ----------------------------------------------------
+
+        self.log(
+            "🔎 Ищем кнопку Qb1.z-button..."
+        )
+
+        search_button = WebDriverWait(
+            self.driver,
+            15
+        ).until(
+            EC.element_to_be_clickable(
+                (
+                    By.XPATH,
+                    "//*[contains(@class, 'Qb1') "
+                    "and contains(@class, 'z-button')]"
+                )
+            )
+        )
+
+        self.log(
+            "✅ Кнопка Qb1.z-button найдена"
+        )
+
+        self.safe_click(
+            search_button
+        )
+
+        self.log(
+            "✅ Кнопка поиска нажата"
+        )
+
+        # ----------------------------------------------------
+        # Ждём появления результата
+        # ----------------------------------------------------
+
+        self.log(
+            "⏳ Ждём результат поиска..."
+        )
+
+        time.sleep(2)
+
+        # ----------------------------------------------------
+        # Qh2.z-listcell
+        # ----------------------------------------------------
+
+        self.log(
+            "🔎 Ищем Qh2.z-listcell..."
+        )
+
+        list_cell = WebDriverWait(
+            self.driver,
+            20
+        ).until(
+            EC.visibility_of_element_located(
+                (
+                    By.XPATH,
+                    "//*[contains(@class, 'Qh2') "
+                    "and contains(@class, 'z-listcell')]"
+                )
+            )
+        )
+
+        self.log(
+            "✅ Qh2.z-listcell найден"
+        )
+
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({block:'center'});",
+            list_cell
         )
 
         time.sleep(0.5)
 
-        try:
-
-            self.safe_click(
-                user_element
-            )
-
-        except Exception:
-
-            self.driver.execute_script(
-                "arguments[0].click();",
-                user_element
-            )
-
-        self.log(
-            "✅ Пользователь открыт"
-        )
-
         # ----------------------------------------------------
-        # Ждём новую модалку
+        # ПКМ по Qh2.z-listcell
         # ----------------------------------------------------
 
         self.log(
-            "⏳ Ждём второе модальное окно..."
+            "🖱 Нажимаем ПКМ по Qh2.z-listcell..."
         )
 
-        second_modal = self.wait_for_modal(
+        ActionChains(
+            self.driver
+        ).context_click(
+            list_cell
+        ).perform()
+
+        self.log(
+            "✅ Контекстное меню вызвано"
+        )
+
+        time.sleep(1)
+
+        # ----------------------------------------------------
+        # Qv1-a.z-menuitem-content
+        # ----------------------------------------------------
+
+        self.log(
+            "🔎 Ищем Qv1-a.z-menuitem-content..."
+        )
+
+        menu_item = WebDriverWait(
+            self.driver,
+            15
+        ).until(
+            EC.visibility_of_element_located(
+                (
+                    By.XPATH,
+                    "//*[contains(@class, 'Qv1-a') "
+                    "and contains(@class, 'z-menuitem-content')]"
+                )
+            )
+        )
+
+        self.log(
+            "✅ Qv1-a.z-menuitem-content найден"
+        )
+
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({block:'center'});",
+            menu_item
+        )
+
+        time.sleep(0.3)
+
+        self.safe_click(
+            menu_item
+        )
+
+        self.log(
+            "✅ Пункт контекстного меню нажат"
+        )
+
+        # ----------------------------------------------------
+        # Ждём модальное окно
+        # ----------------------------------------------------
+
+        self.log(
+            "⏳ Ждём новое модальное окно..."
+        )
+
+        modal = self.wait_for_modal(
             timeout=15
         )
 
         self.log(
-            "✅ Второе модальное окно найдено"
-        )
-
-        # ----------------------------------------------------
-        # N4 — fasp.local
-        # ----------------------------------------------------
-
-        self.select_second_modal_combobox(
-            second_modal,
-            "n4-real",
-            DOMAIN_VALUE
-        )
-
-        # ----------------------------------------------------
-        # P4 — Доступ стандартный
-        # ----------------------------------------------------
-
-        self.select_second_modal_combobox(
-            second_modal,
-            "p4-real",
-            ACCESS_VALUE
-        )
-
-        # ----------------------------------------------------
-        # СОХРАНИТЬ
-        # ----------------------------------------------------
-
-        self.log(
-            "💾 Ищем кнопку 'Сохранить'..."
-        )
-
-        save_button = WebDriverWait(
-            self.driver,
-            10
-        ).until(
-            lambda driver: second_modal.find_element(
-                By.XPATH,
-                ".//button[contains("
-                "normalize-space(.), "
-                "'Сохранить'"
-                ")]"
-            )
+            "✅ МОДАЛЬНОЕ ОКНО ОТКРЫТО"
         )
 
         self.log(
-            "✅ Кнопка 'Сохранить' найдена"
+            "🛑 Останавливаемся на этом этапе."
         )
 
-        self.safe_click(
-            save_button
-        )
-
-        self.log(
-            "✅ Настройки пользователя сохранены"
-        )
-
-        time.sleep(2)
+        # Пока модалку НЕ трогаем.
+        return modal
 
     # ========================================================
     # ОТЧЁТ
@@ -892,8 +1019,6 @@ class XCollectSelenium:
         )
         self.log("=" * 60)
 
-        original_window = self.driver.current_window_handle
-
         old_handles = set(
             self.driver.window_handles
         )
@@ -901,10 +1026,6 @@ class XCollectSelenium:
         self.log(
             "🌐 Открываем отчёт в новой вкладке..."
         )
-
-        # ----------------------------------------------------
-        # Открываем новую вкладку
-        # ----------------------------------------------------
 
         self.driver.execute_script(
             "window.open(arguments[0], '_blank');",
@@ -916,16 +1037,16 @@ class XCollectSelenium:
             10
         ).until(
             lambda driver:
-            len(driver.window_handles) > len(old_handles)
+            len(driver.window_handles)
+            > len(old_handles)
         )
 
-        new_handles = set(
-            self.driver.window_handles
+        new_handles = (
+            set(self.driver.window_handles)
+            - old_handles
         )
 
-        new_window = (
-            new_handles - old_handles
-        ).pop()
+        new_window = new_handles.pop()
 
         self.driver.switch_to.window(
             new_window
@@ -934,10 +1055,6 @@ class XCollectSelenium:
         self.log(
             "✅ Перешли в новую вкладку отчёта"
         )
-
-        # ----------------------------------------------------
-        # Ждём поле отчёта
-        # ----------------------------------------------------
 
         self.log(
             "⏳ Ждём поле логина отчёта..."
@@ -968,10 +1085,6 @@ class XCollectSelenium:
             "✅ Поле отчёта найдено"
         )
 
-        # ----------------------------------------------------
-        # Ввод логина
-        # ----------------------------------------------------
-
         self.driver.execute_script(
             "arguments[0].scrollIntoView({block:'center'});",
             report_input
@@ -992,10 +1105,6 @@ class XCollectSelenium:
             f"✅ В отчёт введён логин: {login}"
         )
 
-        # ----------------------------------------------------
-        # ENTER
-        # ----------------------------------------------------
-
         report_input.send_keys(
             "\n"
         )
@@ -1014,7 +1123,10 @@ class XCollectSelenium:
     # RUN
     # ========================================================
 
-    def run(self, data):
+    def run(
+        self,
+        data
+    ):
 
         try:
 
@@ -1056,7 +1168,6 @@ class XCollectSelenium:
 
             time.sleep(2)
 
-            # Поле логина
             login_input = WebDriverWait(
                 self.driver,
                 15
@@ -1087,7 +1198,6 @@ class XCollectSelenium:
                 "✅ Логин введён"
             )
 
-            # Пароль
             password_input = WebDriverWait(
                 self.driver,
                 15
@@ -1110,7 +1220,6 @@ class XCollectSelenium:
                 "✅ Пароль введён"
             )
 
-            # Кнопка входа
             login_button = WebDriverWait(
                 self.driver,
                 15
@@ -1299,7 +1408,7 @@ class XCollectSelenium:
             time.sleep(3)
 
             # =================================================
-            # НОВЫЙ ЭТАП
+            # НАСТРОЙКА СОЗДАННОГО ПОЛЬЗОВАТЕЛЯ
             # =================================================
 
             self.configure_created_user(
@@ -1307,21 +1416,16 @@ class XCollectSelenium:
             )
 
             # =================================================
-            # ОТЧЁТ
-            # =================================================
-
-            self.open_report_and_enter_login(
-                data["login"]
-            )
-
-            # =================================================
-            # ГОТОВО
+            # ПОКА НЕ ИДЁМ В ОТЧЁТ
             # =================================================
 
             self.log("")
             self.log("=" * 60)
             self.log(
-                "🎉 ВСЯ ЦЕПОЧКА ЗАВЕРШЕНА!"
+                "🛑 ДОШЛИ ДО НОВОГО МОДАЛЬНОГО ОКНА"
+            )
+            self.log(
+                "🛑 Дальнейшие действия пока не выполняем."
             )
             self.log("=" * 60)
 
@@ -1360,11 +1464,18 @@ class XCollectSelenium:
 # GUI
 # ============================================================
 
-ctk.set_appearance_mode("dark")
-ctk.set_default_color_theme("blue")
+ctk.set_appearance_mode(
+    "dark"
+)
+
+ctk.set_default_color_theme(
+    "blue"
+)
 
 
-class XCollectApp(ctk.CTk):
+class XCollectApp(
+    ctk.CTk
+):
 
     def __init__(self):
 
@@ -1533,7 +1644,10 @@ class XCollectApp(ctk.CTk):
             ("branch", "Филиал"),
         ]
 
-        for row, (key, title) in enumerate(field_names):
+        for row, (
+            key,
+            title
+        ) in enumerate(field_names):
 
             label = ctk.CTkLabel(
                 fields_frame,
@@ -1736,7 +1850,10 @@ class XCollectApp(ctk.CTk):
     # LOG
     # ========================================================
 
-    def log(self, text):
+    def log(
+        self,
+        text
+    ):
 
         def update():
 
@@ -1774,7 +1891,8 @@ class XCollectApp(ctk.CTk):
 
         self.after(
             0,
-            lambda: self.status_label.configure(
+            lambda:
+            self.status_label.configure(
                 text=text,
                 text_color=color
             )
@@ -1904,7 +2022,9 @@ class XCollectApp(ctk.CTk):
 
         for key, entry in self.fields.items():
 
-            self.data[key] = entry.get().strip()
+            self.data[key] = (
+                entry.get().strip()
+            )
 
         self.data["login"] = (
             self.login_entry.get().strip()
@@ -1997,19 +2117,21 @@ class XCollectApp(ctk.CTk):
         if success:
 
             self.set_status(
-                "● ЦЕПОЧКА ЗАВЕРШЕНА",
+                "● ЭТАП ВЫПОЛНЕН",
                 "#55d66b"
             )
 
             self.after(
                 0,
-                lambda: messagebox.showinfo(
+                lambda:
+                messagebox.showinfo(
                     "Готово",
                     (
-                        "Пользователь создан и "
-                        "дополнительные этапы выполнены.\n\n"
-                        f"Логин: {self.data['login']}\n"
-                        f"E-mail: {self.data['email']}"
+                        "Цепочка дошла до "
+                        "нового модального окна.\n\n"
+                        f"Логин: {self.data['login']}\n\n"
+                        "Дальнейшие действия пока "
+                        "не выполнялись."
                     )
                 )
             )
@@ -2023,7 +2145,8 @@ class XCollectApp(ctk.CTk):
 
             self.after(
                 0,
-                lambda: messagebox.showerror(
+                lambda:
+                messagebox.showerror(
                     "Ошибка",
                     (
                         "Selenium завершился с ошибкой.\n"
@@ -2034,14 +2157,16 @@ class XCollectApp(ctk.CTk):
 
         self.after(
             0,
-            lambda: self.create_button.configure(
+            lambda:
+            self.create_button.configure(
                 state="normal"
             )
         )
 
         self.after(
             0,
-            lambda: self.parse_button.configure(
+            lambda:
+            self.parse_button.configure(
                 state="normal"
             )
         )

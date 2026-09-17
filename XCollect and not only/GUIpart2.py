@@ -8,6 +8,7 @@ import customtkinter as ctk
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import (
@@ -114,6 +115,147 @@ class XCollectSearch:
         raise Exception(
             "Не найдено поле поиска по логину "
             "(employee_login / tFxP...)."
+        )
+
+    # ========================================================
+    # ПОИСК СТРОКИ РЕЗУЛЬТАТА ПО ЛОГИНУ
+    # ========================================================
+
+    def find_result_row(self, login):
+
+        candidates = [
+
+            # Точное совпадение текста — самый надёжный вариант.
+            "//div[contains(@class, 'z-listcell-content') "
+            f"and normalize-space(text())='{login}']",
+
+            # На случай, если внутри есть лишние пробелы/обёртки.
+            "//div[contains(@class, 'z-listcell-content') "
+            f"and contains(normalize-space(text()), '{login}')]",
+
+            # Запасной вариант через саму ячейку td.
+            "//td[contains(@class, 'z-listcell')]"
+            f"//*[contains(normalize-space(text()), '{login}')]",
+        ]
+
+        for xpath in candidates:
+
+            try:
+
+                elements = self.driver.find_elements(
+                    By.XPATH,
+                    xpath
+                )
+
+                for element in elements:
+
+                    try:
+
+                        if element.is_displayed():
+                            return element
+
+                    except Exception:
+                        continue
+
+            except Exception:
+                continue
+
+        raise Exception(
+            f"Не найдена строка результата для логина '{login}'."
+        )
+
+    # ========================================================
+    # ПОИСК ПОЛЯ ВНУТРИ МОДАЛКИ РЕДАКТИРОВАНИЯ
+    # ========================================================
+
+    def find_edit_modal_field(self, modal, id_hint, value_hint=None):
+
+        xpath_id = (
+            f".//input[contains(@id, '{id_hint}') "
+            "and contains(@class, 'z-combobox-input')]"
+        )
+
+        try:
+
+            for el in modal.find_elements(By.XPATH, xpath_id):
+
+                if el.is_displayed():
+                    return el
+
+        except Exception:
+            pass
+
+        if value_hint:
+
+            xpath_val = (
+                ".//input[contains(@class, 'z-combobox-input') "
+                f"and contains(@value, '{value_hint}')]"
+            )
+
+            try:
+
+                for el in modal.find_elements(By.XPATH, xpath_val):
+
+                    if el.is_displayed():
+                        return el
+
+            except Exception:
+                pass
+
+        raise Exception(
+            f"Не найдено поле (id_hint='{id_hint}') в модалке."
+        )
+
+    # ========================================================
+    # ВЫБОР ЗНАЧЕНИЯ В COMBOBOX
+    # ========================================================
+
+    def select_combobox_value(self, field, value):
+
+        self.driver.execute_script(
+            "arguments[0].focus();",
+            field
+        )
+
+        try:
+
+            field.clear()
+            field.send_keys(value)
+            time.sleep(0.5)
+            field.send_keys("\n")
+
+        except Exception:
+
+            self.driver.execute_script(
+                """
+                arguments[0].value = arguments[1];
+                arguments[0].dispatchEvent(new Event('input', {bubbles:true}));
+                arguments[0].dispatchEvent(new Event('change', {bubbles:true}));
+                """,
+                field,
+                value
+            )
+
+    # ========================================================
+    # ПОИСК МОДАЛКИ
+    # ========================================================
+
+    def wait_for_modal(self, timeout=15):
+
+        return WebDriverWait(
+            self.driver,
+            timeout
+        ).until(
+            EC.visibility_of_element_located(
+                (
+                    By.XPATH,
+                    "//div[contains("
+                    "concat(' ', "
+                    "normalize-space(@class), ' '), "
+                    "' z-window-modal '"
+                    ")]"
+                )
+            )
         )
 
     # ========================================================
@@ -368,13 +510,167 @@ class XCollectSearch:
             time.sleep(2)
 
             # =================================================
+            # ПОИСК СТРОКИ РЕЗУЛЬТАТА
+            # =================================================
+
+            self.log(
+                "🔎 Ищем строку результата поиска..."
+            )
+
+            result_row = WebDriverWait(
+                self.driver,
+                20
+            ).until(
+                lambda driver: self.find_result_row(login)
+            )
+
+            self.log(
+                "✅ Строка результата найдена"
+            )
+
+            self.driver.execute_script(
+                "arguments[0].scrollIntoView({block:'center'});",
+                result_row
+            )
+
+            time.sleep(0.5)
+
+            # =================================================
+            # ДВОЙНОЙ КЛИК ПО СТРОКЕ РЕЗУЛЬТАТА
+            # =================================================
+
+            self.log(
+                "🖱 Двойной клик по строке результата..."
+            )
+
+            try:
+
+                ActionChains(
+                    self.driver
+                ).double_click(
+                    result_row
+                ).perform()
+
+            except Exception:
+
+                self.driver.execute_script(
+                    """
+                    const el = arguments[0];
+                    const evt = new MouseEvent('dblclick', {
+                        bubbles: true,
+                        cancelable: true,
+                        view: window
+                    });
+                    el.dispatchEvent(evt);
+                    """,
+                    result_row
+                )
+
+            self.log(
+                "✅ Двойной клик выполнен"
+            )
+
+            # =================================================
+            # ОЖИДАНИЕ МОДАЛКИ
+            # =================================================
+
+            self.log(
+                "⏳ Ждём открытия модального окна..."
+            )
+
+            modal = self.wait_for_modal(
+                timeout=15
+            )
+
+            self.log(
+                "✅ Модальное окно открыто"
+            )
+
+            # =================================================
+            # ДОМЕН (AD)
+            # =================================================
+
+            self.log(
+                "🔎 Ищем поле домена..."
+            )
+
+            domain_field = self.find_edit_modal_field(
+                modal, "k5-real", value_hint="AD"
+            )
+
+            self.log(
+                "⏳ Выбираем домен: [FASP_LOCAL] Fasp.local AD"
+            )
+
+            self.select_combobox_value(
+                domain_field,
+                "[FASP_LOCAL] Fasp.local AD"
+            )
+
+            self.log(
+                "✅ Домен выбран"
+            )
+
+            # =================================================
+            # ДОСТУП
+            # =================================================
+
+            self.log(
+                "🔎 Ищем поле доступа..."
+            )
+
+            access_field = self.find_edit_modal_field(
+                modal, "m5-real", value_hint="не указано"
+            )
+
+            self.log(
+                "⏳ Выбираем доступ: Стандартный"
+            )
+
+            self.select_combobox_value(
+                access_field,
+                "Стандартный"
+            )
+
+            self.log(
+                "✅ Доступ выбран"
+            )
+
+            # =================================================
+            # ПРОВЕРКА ПОЛЯ ПОЛА
+            # =================================================
+
+            self.log(
+                "🔎 Проверяем поле пола..."
+            )
+
+            gender_field = self.find_edit_modal_field(
+                modal, "65-real"
+            )
+
+            gender_value = (
+                gender_field.get_attribute("value") or ""
+            ).strip()
+
+            if gender_value not in ("Муж", "Жен"):
+
+                raise Exception(
+                    f"Поле пола не заполнено корректно: '{gender_value}'"
+                )
+
+            self.log(
+                f"✅ Пол заполнен корректно: {gender_value}"
+            )
+
+            # =================================================
             # КОНЕЦ ЭТАПА (ТЕСТОВЫЙ ЗАПУСК)
             # =================================================
 
             self.log("")
             self.log("=" * 60)
             self.log(
-                "🛑 ЭТАП ЗАВЕРШЁН: логин введён в поиск, Enter нажат."
+                "🛑 ЭТАП ЗАВЕРШЁН: домен выбран, доступ выбран, "
+                "пол проверен."
             )
             self.log(
                 "🛑 Дальнейшие действия пока не выполняются."

@@ -1,9 +1,9 @@
-import re
-import time
-import threading
 import os
 import subprocess
 import sys
+import re
+import time
+import threading
 import tkinter as tk
 from tkinter import messagebox
 
@@ -50,13 +50,6 @@ DEFAULT_BRANCH = "Воронеж"
 
 DOMAIN_VALUE = "fasp.local"
 ACCESS_VALUE = "Доступ стандартный"
-
-SECOND_SCRIPT = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    "xcollect_second.py"
-)
-
-CHROME_DEBUG_PORT = 9222
 
 
 # ============================================================
@@ -1014,46 +1007,6 @@ class XCollectSelenium:
         return modal
 
     # ========================================================
-    # ЗАПУСК ВТОРОГО СКРИПТА
-    # ========================================================
-
-    def launch_second_script(self, login):
-
-        self.log("")
-        self.log("=" * 60)
-        self.log(
-            "➡️ ПЕРЕДАЁМ УПРАВЛЕНИЕ ВТОРОМУ ФАЙЛУ"
-        )
-        self.log("=" * 60)
-
-        if not os.path.exists(SECOND_SCRIPT):
-            raise FileNotFoundError(
-                f"Второй файл не найден:\n{SECOND_SCRIPT}"
-            )
-
-        self.log(
-            f"📂 Второй файл: {SECOND_SCRIPT}"
-        )
-
-        self.log(
-            f"👤 Передаём логин: {login}"
-        )
-
-        subprocess.Popen(
-            [
-                sys.executable,
-                SECOND_SCRIPT,
-                login
-            ],
-            cwd=os.path.dirname(SECOND_SCRIPT)
-        )
-
-        self.log(
-            "✅ Второй файл запущен"
-        )
-
-
-    # ========================================================
     # ОТЧЁТ
     # ========================================================
 
@@ -1196,14 +1149,6 @@ class XCollectSelenium:
 
             options.add_argument(
                 "--start-maximized"
-            )
-
-            # =================================================
-            # REMOTE DEBUGGING
-            # =================================================
-
-            options.add_argument(
-                f"--remote-debugging-port={CHROME_DEBUG_PORT}"
             )
 
             self.driver = webdriver.Chrome(
@@ -1474,30 +1419,18 @@ class XCollectSelenium:
             )
 
             # =================================================
-            # ПЕРЕДАЧА ВТОРОМУ ФАЙЛУ
+            # ПОКА НЕ ИДЁМ В ОТЧЁТ
             # =================================================
 
             self.log("")
             self.log("=" * 60)
             self.log(
-                "🟢 ПЕРВАЯ ЧАСТЬ ЗАВЕРШЕНА"
+                "🛑 ДОШЛИ ДО НОВОГО МОДАЛЬНОГО ОКНА"
             )
             self.log(
-                "🟢 МОДАЛЬНОЕ ОКНО ОТКРЫТО"
+                "🛑 Дальнейшие действия пока не выполняем."
             )
             self.log("=" * 60)
-
-            self.launch_second_script(
-                data["login"]
-            )
-
-            self.log(
-                "➡️ Первый файл завершил свою работу."
-            )
-
-            self.log(
-                "➡️ Продолжение выполняет xcollect_second.py"
-            )
 
             return True
 

@@ -44,7 +44,7 @@ REPORT_URL = (
 )
 
 XCOLLECT_LOGIN = "n.perepelitsa"
-XCOLLECT_PASSWORD = "123456Qw"
+XCOLLECT_PASSWORD = "DredgenReckoner127."
 
 DEFAULT_BRANCH = "Воронеж"
 

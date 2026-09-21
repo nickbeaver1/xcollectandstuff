@@ -1,7 +1,7 @@
 import time
 import threading
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, simpledialog
 
 import customtkinter as ctk
 
@@ -38,10 +38,11 @@ XCOLLECT_PASSWORD = "DredgenReckoner127."
 
 class XCollectSearch:
 
-    def __init__(self, log):
+    def __init__(self, log, request_input=None):
 
         self.driver = None
         self.log = log
+        self.request_input = request_input
 
     # ========================================================
     # SAFE CLICK
@@ -165,76 +166,96 @@ class XCollectSearch:
         )
 
     # ========================================================
-    # ПОИСК ПОЛЯ ВНУТРИ МОДАЛКИ РЕДАКТИРОВАНИЯ
+    # ПОИСК КНОПОК-СТРЕЛОК COMBOBOX ВНУТРИ МОДАЛКИ
     # ========================================================
 
-    def find_edit_modal_field(self, modal, id_hint, value_hint=None):
+    def find_combobox_buttons(self, modal):
 
-        xpath_id = (
-            f".//input[contains(@id, '{id_hint}') "
-            "and contains(@class, 'z-combobox-input')]"
+        buttons = modal.find_elements(
+            By.XPATH,
+            ".//a[contains(@class, 'z-combobox-button')]"
         )
 
-        try:
+        return [b for b in buttons if b.is_displayed()]
 
-            for el in modal.find_elements(By.XPATH, xpath_id):
+    # ========================================================
+    # ОТКРЫТЬ COMBOBOX И ВЫБРАТЬ ПУНКТ ПО ТЕКСТУ
+    # ========================================================
 
-                if el.is_displayed():
-                    return el
+    def open_combobox_and_select(self, button, target_text):
 
-        except Exception:
-            pass
+        self.safe_click(button)
 
-        if value_hint:
+        time.sleep(0.5)
 
-            xpath_val = (
-                ".//input[contains(@class, 'z-combobox-input') "
-                f"and contains(@value, '{value_hint}')]"
-            )
+        items = WebDriverWait(
+            self.driver, 10
+        ).until(
+            lambda d: [
+                it for it in d.find_elements(
+                    By.XPATH, "//li[contains(@class, 'z-comboitem')]"
+                ) if it.is_displayed()
+            ] or False
+        )
+
+        target = None
+
+        for item in items:
 
             try:
 
-                for el in modal.find_elements(By.XPATH, xpath_val):
+                text_el = item.find_element(
+                    By.XPATH,
+                    ".//span[contains(@class, 'z-comboitem-text')]"
+                )
 
-                    if el.is_displayed():
-                        return el
+                text_norm = text_el.text.strip().replace(
+                    "\xa0", " "
+                )
+
+                if target_text in text_norm:
+                    target = item
+                    break
 
             except Exception:
-                pass
+                continue
 
-        raise Exception(
-            f"Не найдено поле (id_hint='{id_hint}') в модалке."
-        )
+        if target is None:
+
+            raise Exception(
+                f"Не найден пункт списка с текстом похожим на "
+                f"'{target_text}'."
+            )
+
+        self.safe_click(target)
+
+        time.sleep(0.3)
 
     # ========================================================
-    # ВЫБОР ЗНАЧЕНИЯ В COMBOBOX
+    # ЗНАЧЕНИЕ СВЯЗАННОГО ТЕКСТОВОГО ПОЛЯ ПО КНОПКЕ COMBOBOX
+    # (у ZK кнопка "{base}-btn" всегда связана с полем "{base}-real")
     # ========================================================
 
-    def select_combobox_value(self, field, value):
+    def get_real_input_value(self, button):
 
-        self.driver.execute_script(
-            "arguments[0].focus();",
-            field
+        btn_id = button.get_attribute("id") or ""
+
+        real_id = (
+            btn_id[:-4] + "-real"
+            if btn_id.endswith("-btn")
+            else btn_id + "-real"
         )
 
         try:
 
-            field.clear()
-            field.send_keys(value)
-            time.sleep(0.5)
-            field.send_keys("\n")
+            real_input = self.driver.find_element(
+                By.ID, real_id
+            )
+
+            return (real_input.get_attribute("value") or "").strip()
 
         except Exception:
-
-            self.driver.execute_script(
-                """
-                arguments[0].value = arguments[1];
-                arguments[0].dispatchEvent(new Event('input', {bubbles:true}));
-                arguments[0].dispatchEvent(new Event('change', {bubbles:true}));
-                """,
-                field,
-                value
-            )
+            return ""
 
     # ========================================================
     # ПОИСК МОДАЛКИ
@@ -587,95 +608,129 @@ class XCollectSearch:
             )
 
             # =================================================
-            # ДОМЕН (AD)
+            # ТЕСТ: ПОИСК И КЛИК ПО ОДНОЙ КНОПКЕ COMBOBOX
             # =================================================
 
             self.log(
-                "🔎 Ищем поле домена..."
+                "🔎 Ищем кнопку выпадающего списка..."
             )
 
-            domain_field = self.find_edit_modal_field(
-                modal, "k5-real", value_hint="AD"
+            combo_button = WebDriverWait(
+                modal, 10
+            ).until(
+                lambda m: next(
+                    (
+                        el for el in m.find_elements(
+                            By.XPATH,
+                            ".//a[contains(@class, 'z-combobox-button')]"
+                        )
+                        if el.is_displayed()
+                    ),
+                    False
+                )
             )
 
             self.log(
-                "⏳ Выбираем домен: [FASP_LOCAL] Fasp.local AD"
-            )
-
-            self.select_combobox_value(
-                domain_field,
-                "[FASP_LOCAL] Fasp.local AD"
-            )
-
-            self.log(
-                "✅ Домен выбран"
+                "✅ Кнопка найдена"
             )
 
             # =================================================
-            # ДОСТУП
+            # ПРОВЕРКА ЗНАЧЕНИЯ ПЕРВОЙ КНОПКИ
             # =================================================
 
-            self.log(
-                "🔎 Ищем поле доступа..."
+            field_value = self.get_real_input_value(
+                combo_button
             )
 
-            access_field = self.find_edit_modal_field(
-                modal, "m5-real", value_hint="не указано"
-            )
+            if field_value:
 
-            self.log(
-                "⏳ Выбираем доступ: Стандартный"
-            )
-
-            self.select_combobox_value(
-                access_field,
-                "Стандартный"
-            )
-
-            self.log(
-                "✅ Доступ выбран"
-            )
-
-            # =================================================
-            # ПРОВЕРКА ПОЛЯ ПОЛА
-            # =================================================
-
-            self.log(
-                "🔎 Проверяем поле пола..."
-            )
-
-            gender_field = self.find_edit_modal_field(
-                modal, "65-real"
-            )
-
-            gender_value = (
-                gender_field.get_attribute("value") or ""
-            ).strip()
-
-            if gender_value not in ("Муж", "Жен"):
-
-                raise Exception(
-                    f"Поле пола не заполнено корректно: '{gender_value}'"
+                self.log(
+                    f"ℹ️ Поле уже заполнено: '{field_value}', "
+                    "ничего не делаем."
                 )
 
-            self.log(
-                f"✅ Пол заполнен корректно: {gender_value}"
-            )
+            else:
+
+                self.log(
+                    "⚠️ Поле пустое, запрашиваем ввод у пользователя..."
+                )
+
+                user_value = None
+
+                if self.request_input:
+
+                    user_value = self.request_input(
+                        "Поле пустое. Введите значение:"
+                    )
+
+                if user_value:
+
+                    self.log(
+                        f"✅ Получено значение от пользователя: "
+                        f"{user_value}"
+                    )
+
+                else:
+
+                    self.log(
+                        "⚠️ Пользователь не ввёл значение (отмена)."
+                    )
 
             # =================================================
-            # КОНЕЦ ЭТАПА (ТЕСТОВЫЙ ЗАПУСК)
+            # ПОИСК ЕЩЁ ДВУХ КНОПОК (ПО СТАБИЛЬНОМУ СУФФИКСУ ID)
             # =================================================
 
-            self.log("")
-            self.log("=" * 60)
             self.log(
-                "🛑 ЭТАП ЗАВЕРШЁН: домен выбран, доступ выбран, "
-                "пол проверен."
+                "🔎 Ищем кнопку 'k5-btn'..."
             )
+
+            button_k5 = WebDriverWait(
+                modal, 10
+            ).until(
+                lambda m: next(
+                    (
+                        el for el in m.find_elements(
+                            By.XPATH,
+                            ".//a[contains(@id, 'k5-btn') "
+                            "and contains(@class, 'z-combobox-button')]"
+                        )
+                        if el.is_displayed()
+                    ),
+                    False
+                )
+            )
+
             self.log(
-                "🛑 Дальнейшие действия пока не выполняются."
+                "✅ Кнопка 'k5-btn' найдена"
             )
-            self.log("=" * 60)
+
+            self.log(
+                "🔎 Ищем кнопку 'm5-btn'..."
+            )
+
+            button_m5 = WebDriverWait(
+                modal, 10
+            ).until(
+                lambda m: next(
+                    (
+                        el for el in m.find_elements(
+                            By.XPATH,
+                            ".//a[contains(@id, 'm5-btn') "
+                            "and contains(@class, 'z-combobox-button')]"
+                        )
+                        if el.is_displayed()
+                    ),
+                    False
+                )
+            )
+
+            self.log(
+                "✅ Кнопка 'm5-btn' найдена"
+            )
+
+            self.log(
+                "Успех"
+            )
 
             return True
 
@@ -934,6 +989,32 @@ class XCollectSearchApp(
         )
 
     # ========================================================
+    # ЗАПРОС ВВОДА У ПОЛЬЗОВАТЕЛЯ (ИЗ ПОТОКА SELENIUM)
+    # ========================================================
+
+    def request_input(self, prompt):
+
+        result_holder = {}
+        event = threading.Event()
+
+        def ask():
+
+            value = simpledialog.askstring(
+                "Требуется ввод",
+                prompt,
+                parent=self
+            )
+
+            result_holder["value"] = value
+            event.set()
+
+        self.after(0, ask)
+
+        event.wait()
+
+        return result_holder.get("value")
+
+    # ========================================================
     # SEARCH
     # ========================================================
 
@@ -981,7 +1062,8 @@ class XCollectSearchApp(
     def selenium_thread(self, login):
 
         bot = XCollectSearch(
-            self.log
+            self.log,
+            request_input=self.request_input
         )
 
         success = bot.run(

@@ -258,6 +258,90 @@ class XCollectSearch:
             return ""
 
     # ========================================================
+    # ВВОД ПОЛНОГО ЗНАЧЕНИЯ В ПОЛЕ, СВЯЗАННОЕ С КНОПКОЙ, + ENTER
+    # ========================================================
+
+    def fill_real_field_by_button(self, button, value):
+
+        btn_id = button.get_attribute("id") or ""
+
+        real_id = (
+            btn_id[:-4] + "-real"
+            if btn_id.endswith("-btn")
+            else btn_id + "-real"
+        )
+
+        real_input = self.driver.find_element(
+            By.ID, real_id
+        )
+
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({block:'center'});",
+            real_input
+        )
+
+        self.driver.execute_script(
+            "arguments[0].focus();",
+            real_input
+        )
+
+        try:
+
+            real_input.clear()
+            real_input.send_keys(value)
+            time.sleep(0.5)
+            real_input.send_keys(Keys.ENTER)
+
+        except Exception:
+
+            self.driver.execute_script(
+                """
+                arguments[0].value = arguments[1];
+                arguments[0].dispatchEvent(new Event('input', {bubbles:true}));
+                arguments[0].dispatchEvent(new Event('change', {bubbles:true}));
+                """,
+                real_input,
+                value
+            )
+
+        return real_input
+
+    # ========================================================
+    # ВВОД ЗНАЧЕНИЯ В УЖЕ НАЙДЕННОЕ ПОЛЕ + ENTER
+    # ========================================================
+
+    def fill_field(self, field, value):
+
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({block:'center'});",
+            field
+        )
+
+        self.driver.execute_script(
+            "arguments[0].focus();",
+            field
+        )
+
+        try:
+
+            field.clear()
+            field.send_keys(value)
+            time.sleep(0.5)
+            field.send_keys(Keys.ENTER)
+
+        except Exception:
+
+            self.driver.execute_script(
+                """
+                arguments[0].value = arguments[1];
+                arguments[0].dispatchEvent(new Event('input', {bubbles:true}));
+                arguments[0].dispatchEvent(new Event('change', {bubbles:true}));
+                """,
+                field,
+                value
+            )
+
+    # ========================================================
     # ПОИСК МОДАЛКИ
     # ========================================================
 
@@ -681,18 +765,18 @@ class XCollectSearch:
             # =================================================
 
             self.log(
-                "🔎 Ищем кнопку 'k5-btn'..."
+                "🔎 Ищем поле 'k5-real' (Домен)..."
             )
 
-            button_k5 = WebDriverWait(
+            field_k5 = WebDriverWait(
                 modal, 10
             ).until(
                 lambda m: next(
                     (
                         el for el in m.find_elements(
                             By.XPATH,
-                            ".//a[contains(@id, 'k5-btn') "
-                            "and contains(@class, 'z-combobox-button')]"
+                            ".//input[contains(@id, 'k5-real') "
+                            "and contains(@class, 'z-combobox-input')]"
                         )
                         if el.is_displayed()
                     ),
@@ -701,22 +785,34 @@ class XCollectSearch:
             )
 
             self.log(
-                "✅ Кнопка 'k5-btn' найдена"
+                "✅ Поле 'k5-real' найдено"
             )
 
             self.log(
-                "🔎 Ищем кнопку 'm5-btn'..."
+                "⌨️ Вводим '[FASP_LOCAL] Fasp.local AD' и жмём Enter..."
             )
 
-            button_m5 = WebDriverWait(
+            self.fill_field(
+                field_k5, "[FASP_LOCAL] Fasp.local AD"
+            )
+
+            self.log(
+                "✅ Значение введено"
+            )
+
+            self.log(
+                "🔎 Ищем поле 'm5-real' (Доступ)..."
+            )
+
+            field_m5 = WebDriverWait(
                 modal, 10
             ).until(
                 lambda m: next(
                     (
                         el for el in m.find_elements(
                             By.XPATH,
-                            ".//a[contains(@id, 'm5-btn') "
-                            "and contains(@class, 'z-combobox-button')]"
+                            ".//input[contains(@id, 'm5-real') "
+                            "and contains(@class, 'z-combobox-input')]"
                         )
                         if el.is_displayed()
                     ),
@@ -725,7 +821,19 @@ class XCollectSearch:
             )
 
             self.log(
-                "✅ Кнопка 'm5-btn' найдена"
+                "✅ Поле 'm5-real' найдено"
+            )
+
+            self.log(
+                "⌨️ Вводим '[DEFAULT] Стандартный' и жмём Enter..."
+            )
+
+            self.fill_field(
+                field_m5, "[DEFAULT] Стандартный"
+            )
+
+            self.log(
+                "✅ Значение введено"
             )
 
             self.log(

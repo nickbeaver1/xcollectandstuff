@@ -31,6 +31,102 @@ USERS_URL = (
 XCOLLECT_LOGIN = "n.perepelitsa"
 XCOLLECT_PASSWORD = "DredgenReckoner127."
 
+REPORT_URL = (
+    "http://xcollect.fasp.local:81/"
+    "ReportServer/Pages/ReportViewer.aspx?"
+    "%2f%d0%a3%d0%bf%d1%80%d0%b0%d0%b2%d0%bb%d0%b5%d0%bd%d0%b8%d0%b5"
+    "%2f01.+%d0%92%d0%bd%d0%b5%d1%81%d1%82%d0%b8+KKID+"
+    "%d1%83+%d0%bd%d0%be%d0%b2%d0%be%d0%b3%d0%be+"
+    "%d1%81%d0%be%d1%82%d1%80%d1%83%d0%b4%d0%bd%d0%b8%d0%ba%d0%b0"
+    "&rs:Command=Render"
+)
+
+# ============================================================
+# ИМЕНА ДЛЯ ОПРЕДЕЛЕНИЯ ПОЛА
+# ============================================================
+
+FEMALE_NAMES = {
+    "Александра", "Алина", "Алла", "Анастасия", "Ангелина", "Анна",
+    "Антонина", "Валентина", "Валерия", "Варвара", "Василиса", "Вера",
+    "Вероника", "Виктория", "Галина", "Дарья", "Диана", "Евгения",
+    "Екатерина", "Елена", "Елизавета", "Жанна", "Зинаида", "Зоя",
+    "Инесса", "Инна", "Ирина", "Камилла", "Карина", "Кира", "Клавдия",
+    "Кристина", "Ксения", "Лада", "Лариса", "Лидия", "Лилия",
+    "Любовь", "Людмила", "Майя", "Маргарита", "Марина", "Мария",
+    "Надежда", "Наталья", "Нелли", "Нина", "Оксана", "Олеся", "Ольга",
+    "Полина", "Раиса", "Регина", "Римма", "Светлана", "София",
+    "Таисия", "Тамара", "Татьяна", "Ульяна", "Юлия", "Яна",
+
+    "Гульнара", "Дилноза", "Зебо", "Мадина", "Мухлиса", "Нигора",
+    "Ойдин", "Раъно", "Севара", "Феруза", "Хилола", "Шахноза",
+    "Юлдуз", "Дилфуза", "Гульчехра", "Нодира", "Озода", "Хадича",
+    "Фатима", "Малика", "Ширин", "Гульбахор", "Заррина", "Диёра",
+    "Камола", "Лайло", "Мавзуна", "Махлиё", "Нозима", "Ойгуль",
+    "Равшана", "Саодат", "Сорбон", "Угилжон", "Фарзона", "Хуснида",
+    "Шоира", "Эъзоза", "Ясмин", "Барно", "Гульсара", "Дурдона",
+    "Зухра", "Карима", "Мунира", "Наргиза", "Ойша", "Сайёра",
+    "Мухлижон", "Мухлижа",
+
+    "Айгуль", "Айдай", "Айсулуу", "Акжаркын", "Алтынай", "Арууке",
+    "Бактыгуль", "Береке", "Гульзат", "Гульмира", "Дамира", "Динара",
+    "Жамиля", "Жибек", "Жылдыз", "Зульфия", "Индира", "Каныкей",
+    "Кундуз", "Мира", "Назгуль", "Нургуль", "Нурия", "Перизат",
+    "Рахат", "Саадат", "Сабина", "Саида", "Салтанат", "Самара",
+    "Сауле", "Сезим", "Томирис", "Уулкан", "Фарида", "Халида",
+    "Чинара", "Шахло", "Эльвира", "Эмилия",
+}
+
+
+MALE_NAMES = {
+    "Александр", "Алексей", "Анатолий", "Андрей", "Антон", "Аркадий",
+    "Арсений", "Артём", "Борис", "Вадим", "Валентин", "Валерий",
+    "Василий", "Виктор", "Виталий", "Владимир", "Владислав",
+    "Вячеслав", "Геннадий", "Георгий", "Глеб", "Григорий", "Даниил",
+    "Денис", "Дмитрий", "Евгений", "Егор", "Иван", "Игорь", "Илья",
+    "Кирилл", "Константин", "Лев", "Леонид", "Максим", "Марат",
+    "Марк", "Матвей", "Михаил", "Никита", "Николай", "Олег", "Павел",
+    "Пётр", "Роман", "Руслан", "Сергей", "Станислав", "Степан",
+    "Тимофей", "Фёдор", "Юрий", "Ярослав",
+
+    "Абдурашид", "Алишер", "Бахром", "Дониёр", "Зоир", "Ислом",
+    "Карим", "Лутфи", "Мухаммад", "Нодир", "Одил", "Равшан", "Сардор",
+    "Темур", "Улугбек", "Фарход", "Хусниддин", "Шухрат", "Эркин",
+    "Ясин", "Азиз", "Бекзод", "Гулом", "Даврон", "Жамшид", "Зокир",
+    "Икром", "Кудрат", "Мурод", "Нуриддин", "Обод", "Парвиз", "Рустам",
+    "Самир", "Тойир", "Умид", "Файзиддин", "Хаким", "Чоршанбе",
+    "Шавкат", "Эшон", "Юнус", "Абдулла", "Ботир", "Ғафур", "Дилшод",
+    "Жонибек", "Зубайр", "Илхом", "Қосим",
+
+    "Азамат", "Айбек", "Аман", "Арстан", "Байэль", "Бекболот", "Бекзат",
+    "Болот", "Борон", "Данияр", "Досбол", "Дуйшон", "Жаныбек", "Жениш",
+    "Замир", "Зарлык", "Искендер", "Калыс", "Керим", "Кубат",
+    "Кудайберген", "Мадияр", "Максат", "Медер", "Мырза", "Назар",
+    "Нурбек", "Нурлан", "Омурбек", "Орозбек", "Сабыр", "Сагын",
+    "Самат", "Сейит", "Сыдык", "Талант", "Тамырлан", "Темирлан",
+    "Тугельбай", "Улан", "Улугбек", "Эдил", "Эмиль", "Эрмек", "Эсен",
+    "Юсуп",
+}
+
+
+# ============================================================
+# ОПРЕДЕЛЕНИЕ ПОЛА
+# ============================================================
+
+def detect_gender(first_name):
+
+    name = first_name.strip().capitalize()
+
+    if name in FEMALE_NAMES:
+        return "Ж"
+
+    if name in MALE_NAMES:
+        return "М"
+
+    if name.endswith(("а", "я")):
+        return "Ж"
+
+    return "М"
+
 
 # ============================================================
 # SELENIUM
@@ -368,6 +464,261 @@ class XCollectSearch:
     # вводим логин, жмём Enter. Дальше пока не идём.
     # ========================================================
 
+    # ========================================================
+    # ПЕРЕХОД НА USERS_URL, ПОИСК ЛОГИНА, ДВОЙНОЙ КЛИК, МОДАЛКА
+    # (переиспользуется дважды: до и после синхронизации)
+    # ========================================================
+
+    def open_users_and_edit_modal(self, login):
+
+        self.log(
+            "➡️ Переходим в управление пользователями..."
+        )
+
+        self.driver.get(
+            USERS_URL
+        )
+
+        time.sleep(3)
+
+        self.log(
+            "🔎 Ищем поле поиска по логину..."
+        )
+
+        search_field = WebDriverWait(
+            self.driver,
+            20
+        ).until(
+            lambda driver: self.find_login_search_field()
+        )
+
+        self.log(
+            "✅ Поле поиска найдено"
+        )
+
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({block:'center'});",
+            search_field
+        )
+
+        time.sleep(0.3)
+
+        self.driver.execute_script(
+            "arguments[0].focus();",
+            search_field
+        )
+
+        try:
+            search_field.clear()
+        except Exception:
+            pass
+
+        self.log(
+            f"⌨️ Вводим логин: {login}"
+        )
+
+        try:
+
+            search_field.send_keys(
+                login
+            )
+
+        except Exception:
+
+            self.driver.execute_script(
+                """
+                arguments[0].value = arguments[1];
+                arguments[0].dispatchEvent(new Event('input', {bubbles:true}));
+                arguments[0].dispatchEvent(new Event('change', {bubbles:true}));
+                """,
+                search_field,
+                login
+            )
+
+        self.log(
+            "✅ Логин введён в поле поиска"
+        )
+
+        time.sleep(0.5)
+
+        self.log(
+            "⏎ Нажимаем Enter..."
+        )
+
+        try:
+
+            search_field.send_keys(
+                Keys.ENTER
+            )
+
+        except Exception:
+
+            self.driver.execute_script(
+                """
+                arguments[0].dispatchEvent(
+                    new KeyboardEvent('keydown', {
+                        key: 'Enter', code: 'Enter',
+                        keyCode: 13, bubbles: true
+                    })
+                );
+                """,
+                search_field
+            )
+
+        self.log(
+            "✅ Enter нажат"
+        )
+
+        time.sleep(2)
+
+        self.log(
+            "🔎 Ищем строку результата поиска..."
+        )
+
+        result_row = WebDriverWait(
+            self.driver,
+            20
+        ).until(
+            lambda driver: self.find_result_row(login)
+        )
+
+        self.log(
+            "✅ Строка результата найдена"
+        )
+
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({block:'center'});",
+            result_row
+        )
+
+        time.sleep(0.5)
+
+        self.log(
+            "🖱 Двойной клик по строке результата..."
+        )
+
+        try:
+
+            ActionChains(
+                self.driver
+            ).double_click(
+                result_row
+            ).perform()
+
+        except Exception:
+
+            self.driver.execute_script(
+                """
+                const el = arguments[0];
+                const evt = new MouseEvent('dblclick', {
+                    bubbles: true, cancelable: true, view: window
+                });
+                el.dispatchEvent(evt);
+                """,
+                result_row
+            )
+
+        self.log(
+            "✅ Двойной клик выполнен"
+        )
+
+        self.log(
+            "⏳ Ждём открытия модального окна..."
+        )
+
+        modal = self.wait_for_modal(
+            timeout=15
+        )
+
+        self.log(
+            "✅ Модальное окно открыто"
+        )
+
+        return modal
+
+    # ========================================================
+    # ПОИСК ИМЕНИ ВНУТРИ МОДАЛКИ (ДЛЯ ОПРЕДЕЛЕНИЯ ПОЛА)
+    # ========================================================
+
+    def find_first_name_value(self, modal):
+
+        xpath = (
+            ".//input[contains(@class, 'z-textbox') "
+            "and contains(@id, '4')]"
+        )
+
+        elements = [
+            el for el in modal.find_elements(By.XPATH, xpath)
+            if el.is_displayed()
+        ]
+
+        if len(elements) < 2:
+
+            raise Exception(
+                "Ожидалось минимум 2 текстовых поля с '4' в id, "
+                f"найдено {len(elements)}."
+            )
+
+        # Второе поле слева направо — по DOM-порядку.
+        name_field = elements[1]
+
+        val = (name_field.get_attribute("value") or "").strip()
+
+        if not val:
+
+            raise Exception(
+                "Поле с именем найдено, но оно пустое."
+            )
+
+        return val
+
+    # ========================================================
+    # ПОИСК ПОЛЯ ПО ПОЗИЦИИ СЛЕВА НАПРАВО (СРЕДИ ПОЛЕЙ С id_contains)
+    # ========================================================
+
+    def find_field_by_position(self, modal, id_contains, position_from_left):
+
+        xpath = f".//input[contains(@id, '{id_contains}')]"
+
+        elements = [
+            el for el in modal.find_elements(By.XPATH, xpath)
+            if el.is_displayed()
+        ]
+
+        if len(elements) < position_from_left:
+
+            raise Exception(
+                f"Ожидалось минимум {position_from_left} полей "
+                f"с '{id_contains}' в id, найдено {len(elements)}."
+            )
+
+        return elements[position_from_left - 1]
+
+    # ========================================================
+    # ПОИСК КНОПКИ ПО ПОЗИЦИИ СЛЕВА НАПРАВО
+    # ========================================================
+
+    def find_button_by_position(self, container, id_contains, position_from_left):
+
+        xpath = (
+            f".//button[contains(@id, '{id_contains}') "
+            "and contains(@class, 'z-button')]"
+        )
+
+        elements = [
+            el for el in container.find_elements(By.XPATH, xpath)
+            if el.is_displayed()
+        ]
+
+        if len(elements) < position_from_left:
+
+            raise Exception(
+                f"Ожидалось минимум {position_from_left} кнопок "
+                f"с '{id_contains}' в id, найдено {len(elements)}."
+            )
+
+        return elements[position_from_left - 1]
+
     def run(self, login):
 
         try:
@@ -491,204 +842,11 @@ class XCollectSearch:
             time.sleep(5)
 
             # =================================================
-            # ПЕРЕХОД НА СТРАНИЦУ ПОЛЬЗОВАТЕЛЕЙ
+            # ПЕРЕХОД, ПОИСК, ДВОЙНОЙ КЛИК, МОДАЛКА
             # =================================================
 
-            self.log(
-                "➡️ Переходим в управление пользователями..."
-            )
-
-            self.driver.get(
-                USERS_URL
-            )
-
-            time.sleep(3)
-
-            # =================================================
-            # ПОИСК ПОЛЯ ЛОГИНА
-            # =================================================
-
-            self.log(
-                "🔎 Ищем поле поиска по логину..."
-            )
-
-            search_field = WebDriverWait(
-                self.driver,
-                20
-            ).until(
-                lambda driver: self.find_login_search_field()
-            )
-
-            self.log(
-                "✅ Поле поиска найдено"
-            )
-
-            self.driver.execute_script(
-                "arguments[0].scrollIntoView({block:'center'});",
-                search_field
-            )
-
-            time.sleep(0.3)
-
-            self.driver.execute_script(
-                "arguments[0].focus();",
-                search_field
-            )
-
-            try:
-                search_field.clear()
-            except Exception:
-                pass
-
-            # =================================================
-            # ВВОД ЛОГИНА
-            # =================================================
-
-            self.log(
-                f"⌨️ Вводим логин: {login}"
-            )
-
-            try:
-
-                search_field.send_keys(
-                    login
-                )
-
-            except Exception:
-
-                self.driver.execute_script(
-                    """
-                    arguments[0].value = arguments[1];
-
-                    arguments[0].dispatchEvent(
-                        new Event('input', { bubbles: true })
-                    );
-
-                    arguments[0].dispatchEvent(
-                        new Event('change', { bubbles: true })
-                    );
-                    """,
-                    search_field,
-                    login
-                )
-
-            self.log(
-                "✅ Логин введён в поле поиска"
-            )
-
-            time.sleep(0.5)
-
-            # =================================================
-            # НАЖАТИЕ ENTER (СИМУЛЯЦИЯ ПОИСКА)
-            # =================================================
-
-            self.log(
-                "⏎ Нажимаем Enter..."
-            )
-
-            try:
-
-                search_field.send_keys(
-                    Keys.ENTER
-                )
-
-            except Exception:
-
-                self.driver.execute_script(
-                    """
-                    arguments[0].dispatchEvent(
-                        new KeyboardEvent('keydown', {
-                            key: 'Enter',
-                            code: 'Enter',
-                            keyCode: 13,
-                            bubbles: true
-                        })
-                    );
-                    """,
-                    search_field
-                )
-
-            self.log(
-                "✅ Enter нажат"
-            )
-
-            time.sleep(2)
-
-            # =================================================
-            # ПОИСК СТРОКИ РЕЗУЛЬТАТА
-            # =================================================
-
-            self.log(
-                "🔎 Ищем строку результата поиска..."
-            )
-
-            result_row = WebDriverWait(
-                self.driver,
-                20
-            ).until(
-                lambda driver: self.find_result_row(login)
-            )
-
-            self.log(
-                "✅ Строка результата найдена"
-            )
-
-            self.driver.execute_script(
-                "arguments[0].scrollIntoView({block:'center'});",
-                result_row
-            )
-
-            time.sleep(0.5)
-
-            # =================================================
-            # ДВОЙНОЙ КЛИК ПО СТРОКЕ РЕЗУЛЬТАТА
-            # =================================================
-
-            self.log(
-                "🖱 Двойной клик по строке результата..."
-            )
-
-            try:
-
-                ActionChains(
-                    self.driver
-                ).double_click(
-                    result_row
-                ).perform()
-
-            except Exception:
-
-                self.driver.execute_script(
-                    """
-                    const el = arguments[0];
-                    const evt = new MouseEvent('dblclick', {
-                        bubbles: true,
-                        cancelable: true,
-                        view: window
-                    });
-                    el.dispatchEvent(evt);
-                    """,
-                    result_row
-                )
-
-            self.log(
-                "✅ Двойной клик выполнен"
-            )
-
-            # =================================================
-            # ОЖИДАНИЕ МОДАЛКИ
-            # =================================================
-
-            self.log(
-                "⏳ Ждём открытия модального окна..."
-            )
-
-            modal = self.wait_for_modal(
-                timeout=15
-            )
-
-            self.log(
-                "✅ Модальное окно открыто"
+            modal = self.open_users_and_edit_modal(
+                login
             )
 
             # =================================================
@@ -765,7 +923,7 @@ class XCollectSearch:
             # =================================================
 
             self.log(
-                "🔎 Ищем поле 'k5-real' (Домен)..."
+                "🔎 Ищем поле '15-real' (Домен)..."
             )
 
             field_k5 = WebDriverWait(
@@ -775,7 +933,7 @@ class XCollectSearch:
                     (
                         el for el in m.find_elements(
                             By.XPATH,
-                            ".//input[contains(@id, 'k5-real') "
+                            ".//input[contains(@id, '15-real') "
                             "and contains(@class, 'z-combobox-input')]"
                         )
                         if el.is_displayed()
@@ -785,7 +943,7 @@ class XCollectSearch:
             )
 
             self.log(
-                "✅ Поле 'k5-real' найдено"
+                "✅ Поле '15-real' найдено"
             )
 
             self.log(
@@ -801,7 +959,7 @@ class XCollectSearch:
             )
 
             self.log(
-                "🔎 Ищем поле 'm5-real' (Доступ)..."
+                "🔎 Ищем поле '35-real' (Доступ)..."
             )
 
             field_m5 = WebDriverWait(
@@ -811,7 +969,7 @@ class XCollectSearch:
                     (
                         el for el in m.find_elements(
                             By.XPATH,
-                            ".//input[contains(@id, 'm5-real') "
+                            ".//input[contains(@id, '35-real') "
                             "and contains(@class, 'z-combobox-input')]"
                         )
                         if el.is_displayed()
@@ -821,7 +979,7 @@ class XCollectSearch:
             )
 
             self.log(
-                "✅ Поле 'm5-real' найдено"
+                "✅ Поле '35-real' найдено"
             )
 
             self.log(
@@ -835,6 +993,223 @@ class XCollectSearch:
             self.log(
                 "✅ Значение введено"
             )
+
+            # =================================================
+            # ПОЛЕ ПОЛА (7-real) — ПО ИМЕНИ ПОЛЬЗОВАТЕЛЯ
+            # =================================================
+
+            self.log(
+                "🔎 Определяем имя пользователя в модалке..."
+            )
+
+            first_name = self.find_first_name_value(modal)
+
+            self.log(
+                f"✅ Имя найдено: {first_name}"
+            )
+
+            gender_code = detect_gender(first_name)
+
+            gender_value_to_set = (
+                "Муж" if gender_code == "М" else "Жен"
+            )
+
+            self.log(
+                "🔎 Ищем поле пола (7-я позиция слева, "
+                "id содержит '4')..."
+            )
+
+            field_gender = self.find_field_by_position(
+                modal, "4", 7
+            )
+
+            self.log(
+                "✅ Поле пола найдено"
+            )
+
+            current_gender_value = (
+                field_gender.get_attribute("value") or ""
+            ).strip()
+
+            if current_gender_value in ("Муж", "Жен"):
+
+                self.log(
+                    f"ℹ️ Пол уже указан: '{current_gender_value}', "
+                    "ничего не делаем."
+                )
+
+            else:
+
+                self.log(
+                    f"⌨️ Пол не указан, вписываем "
+                    f"'{gender_value_to_set}' (по имени "
+                    f"'{first_name}') и жмём Enter..."
+                )
+
+                self.fill_field(
+                    field_gender, gender_value_to_set
+                )
+
+                self.log(
+                    "✅ Значение введено"
+                )
+
+            # =================================================
+            # КНОПКА ПОДТВЕРЖДЕНИЯ (1-я слева, id содержит '7')
+            # =================================================
+
+            self.log(
+                "🔎 Ищем кнопку подтверждения (1-я слева, "
+                "id содержит '7')..."
+            )
+
+            confirm_button = self.find_button_by_position(
+                modal, "7", 1
+            )
+
+            self.log(
+                "✅ Кнопка найдена"
+            )
+
+            self.safe_click(
+                confirm_button
+            )
+
+            self.log(
+                "✅ Кнопка нажата"
+            )
+
+            time.sleep(1)
+
+            # =================================================
+            # ОТЧЁТ KKID — ВВОД ЛОГИНА
+            # =================================================
+
+            self.log("")
+            self.log("=" * 60)
+            self.log(
+                "📊 ОТЧЁТ KKID"
+            )
+            self.log("=" * 60)
+
+            old_handles = set(
+                self.driver.window_handles
+            )
+
+            self.log(
+                "🌐 Открываем отчёт в новой вкладке..."
+            )
+
+            self.driver.execute_script(
+                "window.open(arguments[0], '_blank');",
+                REPORT_URL
+            )
+
+            WebDriverWait(
+                self.driver, 10
+            ).until(
+                lambda driver:
+                len(driver.window_handles) > len(old_handles)
+            )
+
+            new_window = (
+                set(self.driver.window_handles) - old_handles
+            ).pop()
+
+            self.driver.switch_to.window(
+                new_window
+            )
+
+            self.log(
+                "✅ Перешли в новую вкладку отчёта"
+            )
+
+            report_input = WebDriverWait(
+                self.driver, 30
+            ).until(
+                EC.presence_of_element_located(
+                    (
+                        By.ID,
+                        "ReportViewerControl_ctl04_ctl03_txtValue"
+                    )
+                )
+            )
+
+            self.driver.execute_script(
+                "arguments[0].scrollIntoView({block:'center'});",
+                report_input
+            )
+
+            self.driver.execute_script(
+                "arguments[0].focus();",
+                report_input
+            )
+
+            report_input.clear()
+
+            report_input.send_keys(
+                login
+            )
+
+            self.log(
+                f"✅ В отчёт введён логин: {login}"
+            )
+
+            report_input.send_keys(
+                Keys.ENTER
+            )
+
+            self.log(
+                "⏎ Enter нажат"
+            )
+
+            time.sleep(3)
+
+            # =================================================
+            # СНОВА USERS_URL → ПОИСК → ДВОЙНОЙ КЛИК → МОДАЛКА
+            # =================================================
+
+            self.log("")
+            self.log("=" * 60)
+            self.log(
+                "🔁 ВОЗВРАЩАЕМСЯ К ПОЛЬЗОВАТЕЛЮ ДЛЯ СИНХРОНИЗАЦИИ"
+            )
+            self.log("=" * 60)
+
+            self.driver.switch_to.window(
+                self.driver.window_handles[0]
+            )
+
+            modal2 = self.open_users_and_edit_modal(
+                login
+            )
+
+            # =================================================
+            # КНОПКА "СИНХРОНИЗИРОВАТЬ" (8a-btn стабильный фрагмент)
+            # =================================================
+
+            self.log(
+                "🔎 Ищем кнопку 'Синхронизировать' (4-я слева, "
+                "id содержит '7')..."
+            )
+
+            sync_button = self.find_button_by_position(
+                modal2, "7", 4
+            )
+
+            self.log(
+                "✅ Кнопка 'Синхронизировать' найдена"
+            )
+
+            self.safe_click(
+                sync_button
+            )
+
+            self.log(
+                "✅ Кнопка 'Синхронизировать' нажата"
+            )
+
+            time.sleep(2)
 
             self.log(
                 "Успех"

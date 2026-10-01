@@ -1,0 +1,179 @@
+{
+  "scan_folder": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules",
+  "rules": {
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Вельская диван.txt.txt": {
+      "name": "Вельская диван.txt.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Вельская диван.txt.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T09:43:26+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запрет Microsoft.txt.txt": {
+      "name": "Запрет Microsoft.txt.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запрет Microsoft.txt.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T09:45:20+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запрет Mozilla Разработчики.txt_allow.txt": {
+      "name": "Запрет Mozilla Разработчики.txt_allow.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запрет Mozilla Разработчики.txt_allow.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T10:03:58+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запрет Mozilla Разработчики.txt_block.txt": {
+      "name": "Запрет Mozilla Разработчики.txt_block.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запрет Mozilla Разработчики.txt_block.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T10:03:59+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запрет мессенджеров 2.txt.txt": {
+      "name": "Запрет мессенджеров 2.txt.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запрет мессенджеров 2.txt.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T10:10:14+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запрет мессенджеров.txt_allow.txt": {
+      "name": "Запрет мессенджеров.txt_allow.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запрет мессенджеров.txt_allow.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T10:11:38+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запрет мессенджеров.txt_block.txt": {
+      "name": "Запрет мессенджеров.txt_block.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запрет мессенджеров.txt_block.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T10:27:11+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запрет удаленного управления.txt.txt": {
+      "name": "Запрет удаленного управления.txt.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запрет удаленного управления.txt.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T11:48:14+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты Ex-AKR-B.txt_allow.txt": {
+      "name": "Запреты Ex-AKR-B.txt_allow.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты Ex-AKR-B.txt_allow.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T11:48:46+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты Ex-AKR-B.txt_block.txt": {
+      "name": "Запреты Ex-AKR-B.txt_block.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты Ex-AKR-B.txt_block.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T11:50:06+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты для 1С.txt_allow.txt": {
+      "name": "Запреты для 1С.txt_allow.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты для 1С.txt_allow.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T12:22:37+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты для 1С.txt_block.txt": {
+      "name": "Запреты для 1С.txt_block.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты для 1С.txt_block.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T12:22:37+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты Кадры.txt_allow.txt": {
+      "name": "Запреты Кадры.txt_allow.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты Кадры.txt_allow.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T12:22:43+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты Кадры.txt_block.txt": {
+      "name": "Запреты Кадры.txt_block.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты Кадры.txt_block.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T12:28:07+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты менеджеров ХК.txt.txt": {
+      "name": "Запреты менеджеров ХК.txt.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты менеджеров ХК.txt.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T12:44:05+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты общие базовые.txt_allow.txt": {
+      "name": "Запреты общие базовые.txt_allow.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты общие базовые.txt_allow.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T12:53:05+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты общие базовые.txt_block.txt": {
+      "name": "Запреты общие базовые.txt_block.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты общие базовые.txt_block.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T13:06:28+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты общие жесткие +.txt_allow.txt": {
+      "name": "Запреты общие жесткие +.txt_allow.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты общие жесткие +.txt_allow.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T13:13:10+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты общие жесткие +.txt_block.txt": {
+      "name": "Запреты общие жесткие +.txt_block.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты общие жесткие +.txt_block.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T13:14:53+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты общие жесткие.txt_allow.txt": {
+      "name": "Запреты общие жесткие.txt_allow.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты общие жесткие.txt_allow.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T13:16:13+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты общие жесткие.txt_block.txt": {
+      "name": "Запреты общие жесткие.txt_block.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты общие жесткие.txt_block.txt",
+      "applied": true,
+      "applied_at": "2026-08-06T13:17:19+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты ТОП менеджеров.txt.txt": {
+      "name": "Запреты ТОП менеджеров.txt.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Запреты ТОП менеджеров.txt.txt",
+      "applied": true,
+      "applied_at": "2026-08-07T09:59:59+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\НиД Прохоров.txt.txt": {
+      "name": "НиД Прохоров.txt.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\НиД Прохоров.txt.txt",
+      "applied": true,
+      "applied_at": "2026-08-07T15:08:45+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Разрешенные сайты.txt.txt": {
+      "name": "Разрешенные сайты.txt.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Разрешенные сайты.txt.txt",
+      "applied": true,
+      "applied_at": "2026-08-07T15:09:59+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Следящие сервисы жесткие.txt.txt": {
+      "name": "Следящие сервисы жесткие.txt.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Следящие сервисы жесткие.txt.txt",
+      "applied": true,
+      "applied_at": "2026-08-07T15:18:11+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Социальные сети Level1.txt.txt": {
+      "name": "Социальные сети Level1.txt.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Социальные сети Level1.txt.txt",
+      "applied": true,
+      "applied_at": "2026-08-07T15:46:00+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Социальные сети Level2.txt_allow.txt": {
+      "name": "Социальные сети Level2.txt_allow.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Социальные сети Level2.txt_allow.txt",
+      "applied": true,
+      "applied_at": "2026-08-07T15:48:54+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Социальные сети Level2.txt_block.txt": {
+      "name": "Социальные сети Level2.txt_block.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Социальные сети Level2.txt_block.txt",
+      "applied": true,
+      "applied_at": "2026-08-07T15:51:08+03:00"
+    },
+    "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Храмцова.txt.txt": {
+      "name": "Храмцова.txt.txt",
+      "path": "C:\\Users\\n.perepelitsa\\Desktop\\classified_rules\\Храмцова.txt.txt",
+      "applied": true,
+      "applied_at": "2026-08-07T15:47:22+03:00"
+    }
+  }
+}
